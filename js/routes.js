@@ -8,7 +8,7 @@ function AppRoutes($stateProvider, $urlRouterProvider) {
     // This is the pages branch
     .state('home', {
       url: '/',
-      templateUrl: './views/home.html',
+      templateUrl: '../views/home.html',
       controller: 'LoginController',
       controllerAs: 'loginCtrl'
     });
