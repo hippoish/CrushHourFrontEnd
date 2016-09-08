@@ -8,52 +8,51 @@
     <script src='https://cdn.jsdelivr.net/satellizer/0.15.5/satellizer.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js'></script>
-    <script src='bower_components/ngmap/build/scripts/ng-map.min.js'></script>
     <script src='https://maps.google.com/maps/api/js?libraries=places&key=AIzaSyApLrOEQfsK4vGre07U_DhOILqPreHd6Fo'></script>
+    <script src='bower_components/ngmap/build/scripts/ng-map.min.js'></script>
     <script src='//connect.facebook.net/en_US/sdk.js'></script>
+
 
 
   </head>
   <body>
 
-    <header>
+    <header ng-controller='LoginController as loginCtrl'>
       <h1>Crush Hour</h1>
+      <a ng-click='loginCtrl.logout()' ui-sref='home'>Logout</a>
     </header>
 
+    <!-- <div id="fb-root"></div> -->
+<!--
     <script>
       $window.fbAsyncInit = function() {
         FB.init({
-          appId: '{your-app-id}',
+          appId: '788101691328322',
           status: true,
           cookie: true,
           xfbml: true,
           version: 'v2.4'
         });
       };
-    </script>
+    </script> -->
 
     <main ui-view class='content'>
       loading content?!
     </main>
 
     <div ng-controller='UsersController as usersCtrl'>
-      <ul>
+      <!-- <ul>
         <li ng-repeat='user in usersCtrl.allUsers'>
           {{ user.f_name }} {{ user.l_name }}
         </li>
-      </ul>
-
-      <ng-map center='current-position' geo-fallback-center='[40.74, -74.18]' geo-callback='usersCtrl.callbackFunc("you")'>
-
-        <marker position='current' centered='true'></marker>
-
-      </ng-map>
+      </ul> -->
 
     </div>
 
     <script src='js/app.js'></script>
     <script src='js/controllers/usersController.js'></script>
     <script src='js/controllers/loginController.js'></script>
+    <script src='js/services/facebookFactory.js'></script>
     <script src='js/routes.js'></script>
   </body>
 </html>

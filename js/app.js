@@ -1,30 +1,8 @@
-(function() {
 
   angular.module('CrushHourApp', ['satellizer', 'ui.router', 'ngMap'])
-    // .controller('MainController', MainController)
     .config(AuthProvider);
 
-  // MainController.$inject = ['$auth', '$window', '$http'];
   AuthProvider.$inject = ['$authProvider'];
-
-  // function MainController($auth, $window, $http) {
-  //   var self = this;
-  //
-  //   self.authenticate = function(provider) {
-  //     $auth.authenticate(provider);
-  //   };
-  //   self.isAuthenticated = function() {
-  //     return $auth.isAuthenticated();
-  //   };
-  //   self.logout = function() {
-  //     $auth.logout();
-  //     delete $window.localStorage.currentUser;
-  //   };
-  //
-  //   self.pullFacebook = function() {
-  //     return $http.get('http://crushhour.herokuapp.com/api/users')
-  //   }
-  // }
 
   function AuthProvider($authProvider) {
     $authProvider.httpInterceptor = function() { return true; },
@@ -41,9 +19,9 @@
     $authProvider.storageType = 'localStorage';
 
     $authProvider.facebook({
-      clientId: '1793210427603289',
+      clientId: '788101691328322',
       name: 'facebook',
-      url: 'https://crushhour.herokuapp.com/auth/facebook',
+      url: 'http://localhost:3000/auth/facebook',
       authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['display', 'scope'],
@@ -59,4 +37,3 @@
     // });
 
   }
-})();

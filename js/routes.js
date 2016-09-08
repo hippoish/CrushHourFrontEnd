@@ -11,5 +11,13 @@ function AppRoutes($stateProvider, $urlRouterProvider) {
       templateUrl: './templates/home.html',
       controller: 'LoginController',
       controllerAs: 'loginCtrl'
+    })
+    .state('now', {
+      url: '/now',
+      templateUrl: './templates/now.html',
+      controller: 'UsersController',
+      controllerAs: 'usersCtrl'
     });
+
+    $urlRouterProvider.otherwise('/');
 }

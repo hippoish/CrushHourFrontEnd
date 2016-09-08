@@ -1,9 +1,9 @@
 angular.module('CrushHourApp')
   .controller('UsersController', UsersController);
 
-UsersController.$inject = ['$http', 'NgMap'];
+UsersController.$inject = ['$http', 'NgMap', '$window'];
 
-function UsersController($http, NgMap) {
+function UsersController($http, NgMap, $window) {
   var self = this;
 
   self.allUsers = [];
@@ -13,14 +13,14 @@ function UsersController($http, NgMap) {
     $http
       .get('https://crushhour.herokuapp.com/api/users')
       .then(function(res) {
-        console.log(res.data.users);
+        // console.log(res.data.users);
         self.allUsers = res.data.users;
       }, function(errRes) {
         console.error('There was an error getting the users!', errRes);
       });
   }
 
-  getUsers();
+  // getUsers();
 
   function getOneUser(user) {
     $http
@@ -34,8 +34,18 @@ function UsersController($http, NgMap) {
   NgMap.getMap().then(function(map) {
     self.map = map;
   });
-  self.callbackFunc = function(param) {
-    console.log('You are at' + self.map.getCenter());
+
+  self.getCurrentLocation = function(param) {
+    console.log(/*'You are at' + */self.map.getCenter().lat());
+    console.log(/*'You are at' + */self.map.getCenter().lng());
+    // set the current user's location to self.map.getCenter()
+    console.log($window.sessionStorage.currentUser)
+    JSON.parse($window.sessionStorage.currentUser)
+    console.log($window.sessionStorage.currentUser)
+    $window.sessionStorage.currentUser.current_location = {lat: self.map.getCenter().lat(), lng: self.map.getCenter().lng()};
+
+    // $window.sessionStorage.currentUser.current_location.lng = self.map.getCenter().lng();
+    JSON.stringify($window.sessionStorage.currentUser)
   };
 
   // function getUserLocation(user) {
