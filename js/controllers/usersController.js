@@ -15,12 +15,12 @@ function UsersController($http, NgMap, $window) {
       .get('http://localhost:3000/api/users')
       .then(function(res) {
         console.log('data',res.data);
-        self.allUserPositions = [];
+        self.allUsers = [];
         res.data.users.forEach(function(user) {
-          self.allUserPositions.push(user.current_location);
+          self.allUsers.push(user);
         })
-        console.log('userpositions', self.allUserPositions)
-        return self.allUserPositions;
+        console.log('users', self.allUsers)
+        return self.allUsers;
       }, function(errRes) {
         console.error('There was an error getting the users!', errRes);
       });
