@@ -29,7 +29,7 @@ function LoginController($auth, $window, $http, $state, facebookFactory) {
   function storeUser(user) {
     console.log('storeUser')
     return $http
-      .post('http://localhost:3000/api/users', user)
+      .post('https://crushhour.herokuapp.com/api/users', user)
       .then(function(res) {
         var JSONCurrentUser = JSON.parse($window.sessionStorage.currentUser);
         JSONCurrentUser.id = res.data._id;

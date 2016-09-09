@@ -21,7 +21,7 @@
     $authProvider.facebook({
       clientId: '788101691328322',
       name: 'facebook',
-      url: 'http://localhost:3000/auth/facebook',
+      url: 'https://crushhour.herokuapp.com/auth/facebook',
       authorizationEndpoint: 'https://www.facebook.com/v2.5/dialog/oauth',
       redirectUri: window.location.origin + '/',
       requiredUrlParams: ['display', 'scope'],
