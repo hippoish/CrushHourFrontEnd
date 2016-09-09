@@ -5,18 +5,12 @@ LoginController.$inject = ['$auth', '$window', '$http', '$state', 'facebookFacto
 
 function LoginController($auth, $window, $http, $state, facebookFactory) {
   var self = this;
-  self.user = {
-    first_name : '',
-    last_name : '',
-    facebookId : '',
-    email : '',
-    gender : ''
-  };
-  // self.setUserInfo = setUserInfo;
-  self.storeUser = storeUser
+  self.user = {};
+  self.setUserInfo = setUserInfo;
+  self.storeUser = storeUser;
 
-  // set the info returned by fb to your current user
-  self.setUserInfo = function() {
+  // set the info returned by fb to user
+  function setUserInfo() {
     console.log('setuserinfo')
     facebookFactory.getUserInfo()
       .then(function(res) {
@@ -26,10 +20,9 @@ function LoginController($auth, $window, $http, $state, facebookFactory) {
         self.user.email      = res.email;
         self.user.gender     = res.gender;
         // self.user.interested_in = res.interested_in;
+        // now use the data in user to store a currentUser to sessionStorage so it can be accessed globally using $window
         self.storeUser(self.user)
-          .then($window.sessionStorage.currentUser = self.user)
-          .then(function(res){console.log(res)})
-
+          .then($window.sessionStorage.currentUser = JSON.stringify(self.user))
       })
   }
 
@@ -37,6 +30,11 @@ function LoginController($auth, $window, $http, $state, facebookFactory) {
     console.log('storeUser')
     return $http
       .post('http://localhost:3000/api/users', user)
+      .then(function(res) {
+        var JSONCurrentUser = JSON.parse($window.sessionStorage.currentUser);
+        JSONCurrentUser.id = res.data._id;
+        $window.sessionStorage.currentUser = JSON.stringify(JSONCurrentUser);
+      })
 
   }
 
@@ -59,12 +57,9 @@ function LoginController($auth, $window, $http, $state, facebookFactory) {
 
   self.logout = function() {
     $auth.logout();
-    delete $window.localStorage.currentUser;
+    delete $window.sessionStorage.currentUser;
   };
 
-  // self.pullFacebook = function() {
-  //   return $http.get('http://crushhour.herokuapp.com')
-  // }
 
   $window.fbAsyncInit = function() {
     FB.init({

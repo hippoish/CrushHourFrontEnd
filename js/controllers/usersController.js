@@ -9,27 +9,27 @@ function UsersController($http, NgMap, $window) {
   self.allUsers = [];
   // self.getOneUser = getOneUser;
 
-  function getUsers() {
-    $http
-      .get('https://crushhour.herokuapp.com/api/users')
-      .then(function(res) {
-        // console.log(res.data.users);
-        self.allUsers = res.data.users;
-      }, function(errRes) {
-        console.error('There was an error getting the users!', errRes);
-      });
-  }
+  // function getUsers() {
+  //   $http
+  //     .get('https://crushhour.herokuapp.com/api/users')
+  //     .then(function(res) {
+  //       // console.log(res.data.users);
+  //       self.allUsers = res.data.users;
+  //     }, function(errRes) {
+  //       console.error('There was an error getting the users!', errRes);
+  //     });
+  // }
 
   // getUsers();
-
-  function getOneUser(user) {
-    $http
-      .get('https://crushhour.herokuapp.com/api/users' + user._id)
-      .then(function(res) {
-        console.log(res.data.user);
-        self.singleUser = res.data.user;
-      })
-  }
+  //
+  // function getOneUser(user) {
+  //   $http
+  //     .get('https://crushhour.herokuapp.com/api/users' + user._id)
+  //     .then(function(res) {
+  //       console.log(res.data.user);
+  //       self.singleUser = res.data.user;
+  //     })
+  // }
 
   NgMap.getMap().then(function(map) {
     self.map = map;
@@ -38,14 +38,16 @@ function UsersController($http, NgMap, $window) {
   self.getCurrentLocation = function(param) {
     console.log(/*'You are at' + */self.map.getCenter().lat());
     console.log(/*'You are at' + */self.map.getCenter().lng());
-    // set the current user's location to self.map.getCenter()
-    console.log($window.sessionStorage.currentUser)
-    JSON.parse($window.sessionStorage.currentUser)
-    console.log($window.sessionStorage.currentUser)
-    $window.sessionStorage.currentUser.current_location = {lat: self.map.getCenter().lat(), lng: self.map.getCenter().lng()};
+    // turn currentUser into JSON for manipulation
+    var JSONCurrentUser = JSON.parse($window.sessionStorage.currentUser);
+    // save current lat and long as JSONcurrentUser's current_location
+    JSONCurrentUser.current_location = {lat: self.map.getCenter().lat(), lng: self.map.getCenter().lng()};
+    // stringify JSONCurrentUser so it can be put back in sessionStorage w/ current_location
+    $window.sessionStorage.currentUser = JSON.stringify(JSONCurrentUser);
 
-    // $window.sessionStorage.currentUser.current_location.lng = self.map.getCenter().lng();
-    JSON.stringify($window.sessionStorage.currentUser)
+    $http
+      .patch('http://localhost:3000/api/users/' + JSONCurrentUser.id, JSONCurrentUser)
+      .then(function(res) {console.log(res)})
   };
 
   // function getUserLocation(user) {
