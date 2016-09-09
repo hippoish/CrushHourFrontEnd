@@ -7,18 +7,24 @@ function UsersController($http, NgMap, $window) {
   var self = this;
 
   self.allUsers = [];
+  self.getUsers = getUsers;
   // self.getOneUser = getOneUser;
 
-  // function getUsers() {
-  //   $http
-  //     .get('https://crushhour.herokuapp.com/api/users')
-  //     .then(function(res) {
-  //       // console.log(res.data.users);
-  //       self.allUsers = res.data.users;
-  //     }, function(errRes) {
-  //       console.error('There was an error getting the users!', errRes);
-  //     });
-  // }
+  function getUsers() {
+    $http
+      .get('http://localhost:3000/api/users')
+      .then(function(res) {
+        console.log('data',res.data);
+        self.allUserPositions = [];
+        res.data.users.forEach(function(user) {
+          self.allUserPositions.push(user.current_location);
+        })
+        console.log('userpositions', self.allUserPositions)
+        return self.allUserPositions;
+      }, function(errRes) {
+        console.error('There was an error getting the users!', errRes);
+      });
+  }
 
   // getUsers();
   //
@@ -48,6 +54,8 @@ function UsersController($http, NgMap, $window) {
     $http
       .patch('http://localhost:3000/api/users/' + JSONCurrentUser.id, JSONCurrentUser)
       .then(function(res) {console.log(res)})
+
+    self.getUsers();
   };
 
   // function getUserLocation(user) {
