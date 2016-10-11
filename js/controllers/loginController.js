@@ -21,15 +21,19 @@ function LoginController($auth, $window, $http, $state, facebookFactory) {
         self.user.gender     = res.gender;
         // self.user.interested_in = res.interested_in;
         // now use the data in user to store a currentUser to sessionStorage so it can be accessed globally using $window
+        console.log('self.user from setUserInfo is:', self.user)
         self.storeUser(self.user)
-          .then($window.sessionStorage.currentUser = JSON.stringify(self.user))
+          .then(function(res) {
+            $window.sessionStorage.currentUser = JSON.stringify(self.user)
+          })
       })
   }
 
   function storeUser(user) {
-    console.log('storeUser')
+    console.log('storeUser', user)
     return $http
-      .post('https://crushhour.herokuapp.com/api/users', user)
+      // .post('https://crushhour.herokuapp.com/api/users', user)
+      .post('https://localhost:3000/api/users', user)
       .then(function(res) {
         var JSONCurrentUser = JSON.parse($window.sessionStorage.currentUser);
         JSONCurrentUser.id = res.data._id;

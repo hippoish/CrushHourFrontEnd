@@ -11,7 +11,7 @@ function MatchesController($http) {
 
   function getMatches() {
     $http
-      .get('https://crushhour.herokuapp.com/api/Matches')
+      .get('http://localhost:3000/api/matches')
       .then(function(res) {
         console.log(res.data.matches);
         self.allUsers = res.data.matches;

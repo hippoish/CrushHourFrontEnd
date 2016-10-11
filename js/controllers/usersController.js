@@ -12,7 +12,8 @@ function UsersController($http, NgMap, $window) {
 
   function getUsers() {
     $http
-      .get('https://crushhour.herokuapp.com/api/users')
+      // .get('https://crushhour.herokuapp.com/api/users')
+      .get('http://localhost:3000/api/users')
       .then(function(res) {
         console.log('data',res.data);
         self.allUsers = [];
@@ -52,7 +53,8 @@ function UsersController($http, NgMap, $window) {
     $window.sessionStorage.currentUser = JSON.stringify(JSONCurrentUser);
 
     $http
-      .patch('https://crushhour.herokuapp.com/api/users/' + JSONCurrentUser.id, JSONCurrentUser)
+      // .patch('https://crushhour.herokuapp.com/api/users/' + JSONCurrentUser.id, JSONCurrentUser)
+      .patch('http://localhost:3000/api/users/' + JSONCurrentUser.id, JSONCurrentUser)
       .then(function(res) {console.log(res)})
 
     self.getUsers();
